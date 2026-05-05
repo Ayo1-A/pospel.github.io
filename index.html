@@ -725,7 +725,7 @@
             db: null,
             init() {
                 return new Promise((resolve) => {
-                    if (!window.indexedDB) return resolve(); // Silent failover for strict environments
+                    if (!window.indexedDB) return resolve(); 
                     const req = indexedDB.open('GPM_Data_Cache', 1);
                     req.onupgradeneeded = e => { e.target.result.createObjectStore('prophecies', { keyPath: 'id' }); };
                     req.onsuccess = e => { this.db = e.target.result; resolve(); };
@@ -1169,7 +1169,7 @@
                 const userData = snapshot.val();
                 if (userData.password !== password) {
                     btn.disabled = false; btn.innerHTML = originalText;
-                    return showToast('Incorrect password. Please try again.', 'error'); // Strict exact string match from prompt
+                    return showToast('Incorrect password. Please try again.', 'error'); 
                 }
                 
                 await update(userRef, { lastLogin: Date.now() });
@@ -1196,7 +1196,7 @@
                 listenToUserLikes(); listenToUserSupportStatus(); listenToUserStatus(); listenToUserRole();
                 closeModal('login'); renderAuth(); document.getElementById('loginForm').reset();
                 
-                showToast(`Login successfully!`, 'success'); // Strict exact string match from prompt
+                showToast(`Login successfully!`, 'success'); 
                 scheduleRender(); // Smart Re-hydration: Unlock current page seamlessly
             } catch (error) { 
                 showToast('Authentication failed. Please check your connection.', 'error'); 
@@ -1219,7 +1219,7 @@
             if (Listeners.role) { Listeners.role(); Listeners.role = null; }
             const navBadge = document.getElementById('nav-support-badge'); if (navBadge) navBadge.classList.add('hidden');
             
-            showToast('Logout successful.', 'success'); // Strict exact string match from prompt
+            showToast('Logout successful.', 'success'); 
             document.getElementById('userDropdown').classList.remove('active'); 
             
             if (wasContact) {
@@ -1309,7 +1309,7 @@
                         const robustShareText = `${professionalShareText}🔗 ${postDeepLinkUrl}`;
 
                         if (navigator.canShare && navigator.canShare({ files:[file] })) {
-                            await navigator.share({ files:[file], title: prophecy.title, text: robustShareText });
+                            await navigator.share({ files: [file], title: prophecy.title, text: robustShareText });
                             showToast('Image shared successfully!', 'success');
                         } else if (navigator.share) {
                             await navigator.share({ title: prophecy.title, text: robustShareText });
@@ -1414,7 +1414,6 @@
         }
 
         function renderAbout() {
-            // Dynamic render parsing Firebase `about` node
             const defaultData = {
                 profileImg: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
                 title: "About Minister Michael", subtitle: "Prophet, Teacher, and Watchman",
@@ -1446,7 +1445,6 @@
             `);
         }
 
-        // CHAT RENDERER
         function getChatBubbleHTML(m) {
             return `<div class="chat-bubble ${m.sender === 'user' ? 'user' : 'admin'}">${m.text.replace(/\n/g, '<br>')}<span class="chat-time" style="color: ${m.sender === 'user' ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.5)'}">${new Date(m.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span></div>`;
         }
